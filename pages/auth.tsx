@@ -1,5 +1,5 @@
 import Input from "@/components/Input";
-import { SetStateAction, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 const Auth = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
