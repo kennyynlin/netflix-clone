@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react';
 
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -17,13 +18,18 @@ const Auth = () => {
     );
   }, []);
 
+  const router  = useRouter();
+
   const login = useCallback(async () => {
     try {
       await signIn('credentials', {
         email,
         password,
         redirect: false,
-        callbackUrl: '/profiles',
+      }).then(() => {
+        router.push('/profiles');
+      }).catch((error) => {
+        throw new Error(error);
       });
     } catch (error) {
       console.log(error);
@@ -36,9 +42,11 @@ const Auth = () => {
         email,
         name,
         password,
+      }).then(() => {
+        login();
+      }).catch((error) => {
+        throw new Error(error);
       });
-
-      login();
     } catch (error) {
       console.log(error);
     }
